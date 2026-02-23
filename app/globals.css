@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fffcf5;
+  direction: rtl;
+}
+
+@layer components {
+  .nav-link {
+    @apply text-gray-800 hover:text-gray-600 font-medium text-lg transition-colors duration-200 px-4 py-2;
+  }
+
+  .nav-link:hover {
+    @apply underline underline-offset-4;
+  }
+
+  .tab-button {
+    @apply px-8 py-4 text-2xl font-bold transition-all duration-300 rounded-t-lg;
+  }
+
+  .tab-button.active {
+    @apply bg-white text-gray-800 shadow-lg;
+  }
+
+  .tab-button.inactive {
+    @apply bg-gray-200 text-gray-600 hover:bg-gray-300;
+  }
+
+  .service-card {
+    @apply bg-white rounded-2xl shadow-xl p-8 transition-all duration-300;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-gray-500 focus:outline-none transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-gray-800 text-white px-8 py-4 rounded-lg text-xl font-bold hover:bg-gray-700 transition-colors duration-200;
+  }
+}
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-arrow {
+  @apply absolute top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-4 rounded-full shadow-lg transition-all duration-200 z-10;
+}
+
+.carousel-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+}
