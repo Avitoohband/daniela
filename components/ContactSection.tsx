@@ -122,9 +122,9 @@ export default function ContactSection() {
 
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center" style={{ color: "#b5d566" }}>
                     <svg
-                      className="w-6 h-6 text-gray-800"
+                      className="w-6 h-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -144,9 +144,9 @@ export default function ContactSection() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center" style={{ color: "#b5d566" }}>
                     <svg
-                      className="w-6 h-6 text-gray-800"
+                      className="w-6 h-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -168,9 +168,9 @@ export default function ContactSection() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center" style={{ color: "#b5d566" }}>
                     <svg
-                      className="w-6 h-6 text-gray-800"
+                      className="w-6 h-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -190,9 +190,9 @@ export default function ContactSection() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center" style={{ color: "#b5d566" }}>
                     <svg
-                      className="w-6 h-6 text-gray-800"
+                      className="w-6 h-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -230,9 +230,10 @@ export default function ContactSection() {
                   href="#"
                   className="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
                   aria-label="פייסבוק"
+                  style={{ color: "#b5d566" }}
                 >
                   <svg
-                    className="w-6 h-6 text-gray-800"
+                    className="w-6 h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -245,9 +246,10 @@ export default function ContactSection() {
                   href="#"
                   className="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
                   aria-label="אינסטגרם"
+                  style={{ color: "#b5d566" }}
                 >
                   <svg
-                    className="w-6 h-6 text-gray-800"
+                    className="w-6 h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -260,9 +262,10 @@ export default function ContactSection() {
                   href="#"
                   className="w-12 h-12 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
                   aria-label="וואטסאפ"
+                  style={{ color: "#b5d566" }}
                 >
                   <svg
-                    className="w-6 h-6 text-gray-800"
+                    className="w-6 h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >

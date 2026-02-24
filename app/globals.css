@@ -21,15 +21,17 @@ body {
   }
 
   .tab-button {
-    @apply px-8 py-4 text-2xl font-bold transition-all duration-300 rounded-t-lg;
+    @apply px-8 py-4 text-2xl font-bold transition-all duration-300 rounded-t-lg border-2 border-b-0;
   }
 
   .tab-button.active {
-    @apply bg-white text-gray-800 shadow-lg;
+    @apply bg-white text-gray-900 shadow-lg border-gray-300 relative z-10;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   .tab-button.inactive {
-    @apply bg-gray-200 text-gray-600 hover:bg-gray-300;
+    @apply bg-gray-100 text-gray-500 hover:bg-gray-200 border-gray-200 border-b-gray-200;
+    box-shadow: none;
   }
 
   .service-card {
@@ -60,4 +62,13 @@ body {
 
 .carousel-arrow:hover {
   transform: translateY(-50%) scale(1.1);
+}
+
+.footer-wood-carving {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #9ca3af;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
 }

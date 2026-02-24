@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 const navLinks = [
   { href: "#about", label: "אודות" },
   { href: "#services", label: "הרצאות וסדנאות" },
   { href: "#gallery", label: "גלריה" },
+  { href: "#testimonials", label: "המלצות" },
   { href: "#contact", label: "צור קשר" },
 ];
 
@@ -45,8 +47,14 @@ export default function Navbar() {
               <span className="text-xl font-bold text-gray-800">
                 דניאלה - הרצאות וסדנאות
               </span>
-              <div className="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-gray-800">ד</span>
+              <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                <Image
+                  src="/images/small-logo.jpg"
+                  alt="לוגו דניאלה"
+                  fill
+                  className="object-cover"
+                  sizes="56px"
+                />
               </div>
             </div>
           </div>

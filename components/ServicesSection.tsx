@@ -12,6 +12,7 @@ const servicesData = {
     price: "700",
     duration: "משך: שעה אחת",
     imageAlt: "תמונת הרצאה",
+    imageSrc: "/images/both-about-section.jpg",
   },
   workshops: {
     title: "סדנאות",
@@ -20,6 +21,7 @@ const servicesData = {
     price: "1,000",
     duration: "משך: שעה וחצי",
     imageAlt: "תמונת סדנה",
+    imageSrc: "/images/workshop.jpg",
   },
 };
 

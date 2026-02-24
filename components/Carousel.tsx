@@ -1,26 +1,34 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+
+const carouselImages = [
+  "/images/carousel1.jpg",
+  "/images/carousel2.jpg",
+  "/images/carousel3.jpg",
+  "/images/carousel4.jpg",
+];
 
 const slides = [
   {
     id: 1,
-    review: '"הרצאה מרתקת ומעשירה! למדתי המון דברים חדשים ונהניתי מכל רגע."',
+    review: '"חוויה מרגשת ומעשירה. ההרצאה התאימה בדיוק לקהל שלנו והמשתתפים ביקשו עוד."',
     author: "שרה כהן, תל אביב",
   },
   {
     id: 2,
-    review: '"הסדנה הייתה חוויה מדהימה. אווירה נעימה וחמה, ממליצה בחום!"',
+    review: '"הסדנה הייתה מדהימה – אווירה חמה ונעימה, וכולם יצאו עם חיוך. ממליצה בחום!"',
     author: "יעקב לוי, חיפה",
   },
   {
     id: 3,
-    review: '"מרצה מקסימה עם ידע רב. ההרצאות שלה תמיד מעניינות ומותאמות לקהל."',
+    review: '"דניאלה מרצה מקסימה עם ידע רב. ההרצאות שלה תמיד מעניינות ומותאמות בדיוק לגיל השלישי."',
     author: "רחל אברהם, ירושלים",
   },
   {
     id: 4,
-    review: '"הסדנאות שלה יצירתיות ומהנות. יצאתי עם תחושת הישג אמיתית."',
+    review: '"הסדנאות יצירתיות ומהנות. יצאתי עם תחושת הישג אמיתית וממליץ לכל בית אבות."',
     author: "משה דוד, באר שבע",
   },
 ];
@@ -42,7 +50,7 @@ export default function Carousel() {
   }, [nextSlide]);
 
   return (
-    <section id="gallery" className="py-20">
+    <section id="testimonials" className="py-20">
       {/* Green accent line above */}
       <div className="w-full h-2 bg-accent mb-8"></div>
 
@@ -55,26 +63,15 @@ export default function Carousel() {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            {/* Placeholder Image Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-400 to-gray-600">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-white/30">
-                  <svg
-                    className="w-32 h-32 mx-auto"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="text-2xl">תמונה {slide.id}</span>
-                </div>
-              </div>
+            {/* Image Background */}
+            <div className="absolute inset-0">
+              <Image
+                src={carouselImages[index]}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
             </div>
 
             {/* Review Overlay */}
