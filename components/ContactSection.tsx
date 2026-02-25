@@ -9,10 +9,33 @@ export default function ContactSection() {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("תודה על פנייתך! נחזור אליך בהקדם.");
+    setError("");
+    setSuccess(false);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || "שגיאה בשליחת הפנייה");
+        return;
+      }
+      setSuccess(true);
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } catch {
+      setError("שגיאה בחיבור");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (
@@ -35,6 +58,14 @@ export default function ContactSection() {
               השאירו פרטים ונחזור אליכם
             </h3>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {success && (
+                <p className="text-green-700 font-medium text-center">
+                  תודה על פנייתך! נחזור אליך בהקדם.
+                </p>
+              )}
+              {error && (
+                <p className="text-red-600 text-sm text-center">{error}</p>
+              )}
               <div>
                 <label
                   htmlFor="name"
@@ -107,8 +138,12 @@ export default function ContactSection() {
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full">
-                שלח פנייה
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "שולח..." : "שלח פנייה"}
               </button>
             </form>
           </div>
