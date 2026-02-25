@@ -26,56 +26,35 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-20">
-          {/* Navigation Links - Center */}
-          <div className="hidden md:flex items-center gap-2 flex-1 justify-center">
+        <div className="flex items-center h-14 md:h-20 gap-1 md:gap-2">
+          {/* Navigation Links - all screen sizes, smaller on mobile */}
+          <div className="flex items-center gap-1 md:gap-2 flex-1 justify-center flex-wrap">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
-                className="nav-link"
+                className="nav-link text-sm md:text-lg px-2 py-1.5 md:px-4 md:py-2"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          {/* Logo - Left side */}
-          <div className="flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="text-xl font-bold text-gray-800">
-                דניאלה - הרצאות וסדנאות
-              </span>
-              <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
-                <Image
-                  src="/images/small-logo.jpg"
-                  alt="לוגו דניאלה"
-                  fill
-                  className="object-cover"
-                  sizes="56px"
-                />
-              </div>
+          {/* Logo - smaller on mobile */}
+          <div className="flex-shrink-0 flex items-center gap-2 md:gap-3">
+            <span className="text-sm md:text-xl font-bold text-gray-800">
+              דניאלה - הרצאות וסדנאות
+            </span>
+            <div className="relative w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                src="/images/small-logo.jpg"
+                alt="לוגו דניאלה"
+                fill
+                className="object-cover"
+                sizes="56px"
+              />
             </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex-1">
-            <button className="p-2 rounded-md text-gray-800 hover:bg-gray-100">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
           </div>
         </div>
       </div>

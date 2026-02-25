@@ -33,8 +33,11 @@ const slides = [
   },
 ];
 
+const AUTO_ADVANCE_MS = 5000;
+
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [timerKey, setTimerKey] = useState(0);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -44,10 +47,14 @@ export default function Carousel() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   }, []);
 
+  const resetAutoAdvance = useCallback(() => {
+    setTimerKey((k) => k + 1);
+  }, []);
+
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
+    const interval = setInterval(nextSlide, AUTO_ADVANCE_MS);
     return () => clearInterval(interval);
-  }, [nextSlide]);
+  }, [nextSlide, timerKey]);
 
   return (
     <section id="testimonials" className="py-20">
@@ -88,7 +95,10 @@ export default function Carousel() {
 
         {/* Navigation Arrows */}
         <button
-          onClick={nextSlide}
+          onClick={() => {
+            nextSlide();
+            resetAutoAdvance();
+          }}
           className="carousel-arrow right-4"
           aria-label="הבא"
         >
@@ -108,7 +118,10 @@ export default function Carousel() {
         </button>
 
         <button
-          onClick={prevSlide}
+          onClick={() => {
+            prevSlide();
+            resetAutoAdvance();
+          }}
           className="carousel-arrow left-4"
           aria-label="הקודם"
         >
@@ -132,7 +145,10 @@ export default function Carousel() {
           {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => {
+                setCurrentSlide(index);
+                resetAutoAdvance();
+              }}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide
                   ? "bg-white w-8"
