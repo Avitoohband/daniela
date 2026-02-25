@@ -30,7 +30,7 @@ function Footer() {
           © {new Date().getFullYear()} דניאלה - הרצאות וסדנאות. כל הזכויות
           שמורות.
         </p>
-        <p className="footer-wood-carving">
+        <p className="footer-wood-carving" dir="ltr">
           @ 2026 Avi Tuchband. All rights reserved.
         </p>
       </div>
@@ -43,7 +43,7 @@ export default function Home() {
     <ServiceProvider>
       <main className="min-h-screen">
         <Navbar />
-        <div className="relative w-full h-[50vh] min-h-[280px] bg-gray-100">
+        <div className="relative w-full h-[65vh] min-h-[360px] sm:h-[55vh] sm:min-h-[300px] md:h-[50vh] md:min-h-[280px] bg-gray-100">
           <Image
             src="/images/primary.jpg"
             alt="דניאלה - הרצאות וסדנאות לגיל השלישי"
