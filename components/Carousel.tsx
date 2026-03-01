@@ -10,32 +10,23 @@ const carouselImages = [
   "/images/carousel4.jpg",
 ];
 
-const slides = [
-  {
-    id: 1,
-    review: '"חוויה מרגשת ומעשירה. ההרצאה התאימה בדיוק לקהל שלנו והמשתתפים ביקשו עוד."',
-    author: "שרה כהן, תל אביב",
-  },
-  {
-    id: 2,
-    review: '"הסדנה הייתה מדהימה – אווירה חמה ונעימה, וכולם יצאו עם חיוך. ממליצה בחום!"',
-    author: "יעקב לוי, חיפה",
-  },
-  {
-    id: 3,
-    review: '"דניאלה מרצה מקסימה עם ידע רב. ההרצאות שלה תמיד מעניינות ומותאמות בדיוק לגיל השלישי."',
-    author: "רחל אברהם, ירושלים",
-  },
-  {
-    id: 4,
-    review: '"הסדנאות יצירתיות ומהנות. יצאתי עם תחושת הישג אמיתית וממליץ לכל בית אבות."',
-    author: "משה דוד, באר שבע",
-  },
+export interface CarouselSlide {
+  id: string;
+  review: string;
+  author: string;
+}
+
+const DEFAULT_SLIDES: CarouselSlide[] = [
+  { id: "1", review: '"חוויה מרגשת ומעשירה. ההרצאה התאימה בדיוק לקהל שלנו והמשתתפים ביקשו עוד."', author: "שרה כהן, תל אביב" },
+  { id: "2", review: '"הסדנה הייתה מדהימה – אווירה חמה ונעימה, וכולם יצאו עם חיוך. ממליצה בחום!"', author: "יעקב לוי, חיפה" },
+  { id: "3", review: '"דניאלה מרצה מקסימה עם ידע רב. ההרצאות שלה תמיד מעניינות ומותאמות בדיוק לגיל השלישי."', author: "רחל אברהם, ירושלים" },
+  { id: "4", review: '"הסדנאות יצירתיות ומהנות. יצאתי עם תחושת הישג אמיתית וממליץ לכל בית אבות."', author: "משה דוד, באר שבע" },
 ];
 
-const AUTO_ADVANCE_MS = 5000;
+const AUTO_ADVANCE_MS = 15000;
 
-export default function Carousel() {
+export default function Carousel(props?: { slides?: CarouselSlide[] }) {
+  const slides = props?.slides?.length ? props.slides : DEFAULT_SLIDES;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [timerKey, setTimerKey] = useState(0);
 
@@ -73,7 +64,7 @@ export default function Carousel() {
             {/* Image Background */}
             <div className="absolute inset-0">
               <Image
-                src={carouselImages[index]}
+                src={carouselImages[index % carouselImages.length]}
                 alt=""
                 fill
                 className="object-cover"

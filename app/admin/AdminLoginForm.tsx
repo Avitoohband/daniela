@@ -18,7 +18,7 @@ export default function AdminLoginForm() {
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
-        window.location.href = "/admin";
+        window.location.href = "/admin/requests";
         return;
       }
       const data = await res.json().catch(() => ({}));
@@ -51,6 +51,7 @@ export default function AdminLoginForm() {
         <input
           id="admin-password"
           type="password"
+          autoFocus
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"

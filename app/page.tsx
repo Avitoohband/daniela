@@ -6,13 +6,11 @@ import GallerySection from "@/components/GallerySection";
 import Carousel from "@/components/Carousel";
 import ContactSection from "@/components/ContactSection";
 import { ServiceProvider } from "@/context/ServiceContext";
+import { getSiteContent, type SiteContentMap } from "@/lib/site-content";
 
 function HeroSection() {
   return (
-    <section
-      id="about"
-      className="py-20 px-4"
-    >
+    <section id="about" className="py-20 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-gray-800">
           הרצאות וסדנאות לגיל השלישי
@@ -31,14 +29,21 @@ function Footer() {
           שמורות.
         </p>
         <p className="footer-wood-carving" dir="ltr">
-          @ 2026 Avi Tuchband. All rights reserved.
+          © 2026 Avi Tuchband. All rights reserved.
         </p>
       </div>
     </footer>
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  let content: Partial<SiteContentMap> = {};
+  try {
+    content = (await getSiteContent()) as Partial<SiteContentMap>;
+  } catch {
+    /* use defaults */
+  }
+
   return (
     <ServiceProvider>
       <main className="min-h-screen">
@@ -54,11 +59,23 @@ export default function Home() {
           />
         </div>
         <HeroSection />
-        <AboutUsSection />
-        <ServicesSection />
-        <GallerySection />
-        <Carousel />
-        <ContactSection />
+        <AboutUsSection profiles={content.about_us?.profiles} />
+        <ServicesSection
+          lectures={content.services?.lectures}
+          workshops={content.services?.workshops}
+        />
+        <GallerySection
+          title={content.how_it_started?.title}
+          body={content.how_it_started?.body}
+        />
+        <Carousel slides={content.carousel?.slides} />
+        <ContactSection
+          contact1={content.contact?.contact1}
+          contact2={content.contact?.contact2}
+          email={content.contact?.email}
+          address={content.contact?.address}
+          socials={content.contact?.socials}
+        />
         <Footer />
       </main>
     </ServiceProvider>

@@ -3,7 +3,12 @@
 import React from "react";
 import Image from "next/image";
 
-const profiles = [
+export interface AboutUsProfile {
+  name: string;
+  bio: string;
+}
+
+const DEFAULT_PROFILES: (AboutUsProfile & { imageSrc: string; imageAlt: string })[] = [
   {
     name: "אלה",
     imageSrc: "/images/ela.jpeg",
@@ -18,7 +23,18 @@ const profiles = [
   },
 ];
 
-export default function AboutUsSection() {
+export default function AboutUsSection({
+  profiles: profilesProp,
+}: {
+  profiles?: AboutUsProfile[];
+}) {
+  const profiles = profilesProp?.length
+    ? profilesProp.map((p, i) => ({
+        ...p,
+        imageSrc: DEFAULT_PROFILES[i]?.imageSrc ?? "/images/ela.jpeg",
+        imageAlt: p.name,
+      }))
+    : DEFAULT_PROFILES;
   return (
     <section id="about-us" className="py-20 px-4">
       <div className="max-w-5xl mx-auto">
@@ -26,9 +42,9 @@ export default function AboutUsSection() {
           אודותינו
         </h2>
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {profiles.map((profile) => (
+          {profiles.map((profile, i) => (
             <div
-              key={profile.name}
+              key={`${profile.name}-${i}`}
               className="flex flex-col md:flex-row gap-6 items-center md:items-start text-right"
             >
               <div className="relative w-48 h-48 flex-shrink-0 rounded-xl overflow-hidden">

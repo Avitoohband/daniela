@@ -4,7 +4,14 @@ import React from "react";
 import { useService } from "@/context/ServiceContext";
 import ServiceCard from "./ServiceCard";
 
-const servicesData = {
+export interface ServiceItem {
+  title: string;
+  description: string;
+  price: string;
+  duration: string;
+}
+
+const DEFAULT_SERVICES = {
   lectures: {
     title: "הרצאות",
     description:
@@ -25,7 +32,21 @@ const servicesData = {
   },
 };
 
-export default function ServicesSection() {
+export default function ServicesSection({
+  lectures,
+  workshops,
+}: {
+  lectures?: ServiceItem;
+  workshops?: ServiceItem;
+}) {
+  const servicesData = {
+    lectures: lectures
+      ? { ...lectures, imageAlt: "תמונת הרצאה", imageSrc: "/images/both-about-section.jpg" }
+      : DEFAULT_SERVICES.lectures,
+    workshops: workshops
+      ? { ...workshops, imageAlt: "תמונת סדנה", imageSrc: "/images/workshop.jpg" }
+      : DEFAULT_SERVICES.workshops,
+  };
   const { activeService, setActiveService } = useService();
 
   return (
