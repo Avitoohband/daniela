@@ -3,6 +3,8 @@ import { getDb } from "./db";
 
 export type ServiceRequestStatus = "pending" | "addressed" | "not_relevant";
 
+export type EventType = "סדנה" | "הרצאה";
+
 export interface ServiceRequest {
   _id: ObjectId;
   name: string;
@@ -14,6 +16,8 @@ export interface ServiceRequest {
   agreedPrice?: string;
   agreedTime?: string;
   notes?: string;
+  eventDate?: string;
+  eventType?: EventType;
   createdAt: Date;
   addressedAt?: Date;
 }
@@ -66,6 +70,8 @@ export async function updateServiceRequest(
     agreedPrice: string;
     agreedTime: string;
     notes: string;
+    eventDate: string;
+    eventType: EventType;
     addressedAt: Date;
   }>
 ): Promise<ServiceRequest | null> {

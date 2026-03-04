@@ -15,6 +15,8 @@ interface ServiceRequestRow {
   agreedPrice: string;
   agreedTime: string;
   notes: string;
+  eventDate: string;
+  eventType: string;
   createdAt: string;
   addressedAt: string | null;
 }
@@ -141,6 +143,8 @@ function EditModal({
   onSave: (data: Partial<ServiceRequestRow>) => Promise<void>;
 }) {
   const [status, setStatus] = useState<ServiceRequestStatus>(request.status);
+  const [eventDate, setEventDate] = useState(request.eventDate ?? "");
+  const [eventType, setEventType] = useState(request.eventType ?? "");
   const [addressedBy, setAddressedBy] = useState(request.addressedBy);
   const [agreedPrice, setAgreedPrice] = useState(request.agreedPrice);
   const { hours: initHours, minutes: initMins } = parseDuration(request.agreedTime);
@@ -148,6 +152,7 @@ function EditModal({
   const [durationMinutes, setDurationMinutes] = useState(initMins);
   const [notes, setNotes] = useState(request.notes);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [showAddNew, setShowAddNew] = useState(false);
   const [newName, setNewName] = useState("");
 
@@ -181,10 +186,13 @@ function EditModal({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
+    setSaveError(null);
     try {
       const agreedTime = durationToStorage(durationHours, durationMinutes);
-      await onSave({ status, addressedBy, agreedPrice, agreedTime, notes });
+      await onSave({ status, eventDate, eventType, addressedBy, agreedPrice, agreedTime, notes });
       onClose();
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "שגיאה בשמירה");
     } finally {
       setSaving(false);
     }
@@ -209,6 +217,27 @@ function EditModal({
               <option value="pending">ממתין</option>
               <option value="addressed">טופל</option>
               <option value="not_relevant">לא רלוונטי</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">תאריך אירוע</label>
+            <input
+              type="date"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">סוג אירוע</label>
+            <select
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            >
+              <option value="">—</option>
+              <option value="הרצאה">הרצאה</option>
+              <option value="סדנה">סדנה</option>
             </select>
           </div>
           {status === "addressed" && (
@@ -304,6 +333,9 @@ function EditModal({
               </div>
             </>
           )}
+          {saveError && (
+            <p className="text-red-600 text-sm">{saveError}</p>
+          )}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">הערות</label>
             <textarea
@@ -347,6 +379,16 @@ function formatDate(iso: string | null) {
   });
 }
 
+function formatDateShort(iso: string | null) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  return d.toLocaleDateString("he-IL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function AdminPanel() {
   const [requests, setRequests] = useState<ServiceRequestRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -376,11 +418,15 @@ export default function AdminPanel() {
   }, [editing]);
 
   async function handleSave(id: string, data: Partial<ServiceRequestRow>) {
-    await fetch(`/api/admin/requests/${id}`, {
+    const res = await fetch(`/api/admin/requests/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `שגיאה ${res.status}`);
+    }
     const updated = await fetch("/api/admin/requests").then((r) => r.json());
     if (Array.isArray(updated)) setRequests(updated);
     setEditing(null);
@@ -409,6 +455,12 @@ export default function AdminPanel() {
                     <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-2 items-center text-sm">
                       <span className="font-medium text-gray-600">סטטוס</span>
                       <div><StatusIcon status={request.status} /></div>
+
+                      <span className="font-medium text-gray-600">תאריך אירוע</span>
+                      <span className="text-gray-600">{formatDateShort(request.eventDate || null)}</span>
+
+                      <span className="font-medium text-gray-600">סוג אירוע</span>
+                      <span className="text-gray-600">{request.eventType || "—"}</span>
 
                       <span className="font-medium text-gray-600">שם</span>
                       <span className="text-gray-800">{request.name}</span>
@@ -471,6 +523,8 @@ export default function AdminPanel() {
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
                     <th className="text-right py-3 px-4 font-medium text-gray-700">סטטוס</th>
+                    <th className="text-right py-3 px-4 font-medium text-gray-700">תאריך אירוע</th>
+                    <th className="text-right py-3 px-4 font-medium text-gray-700">סוג אירוע</th>
                     <th className="text-right py-3 px-4 font-medium text-gray-700">שם</th>
                     <th className="text-right py-3 px-4 font-medium text-gray-700">אימייל</th>
                     <th className="text-right py-3 px-4 font-medium text-gray-700">טלפון</th>
@@ -493,6 +547,10 @@ export default function AdminPanel() {
                       <td className="py-3 px-4">
                         <StatusIcon status={request.status} />
                       </td>
+                      <td className="py-3 px-4 text-gray-600 text-sm">
+                        {formatDateShort(request.eventDate || null)}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600">{request.eventType || "—"}</td>
                       <td className="py-3 px-4 text-gray-800">{request.name}</td>
                       <td className="py-3 px-4 text-gray-800">{request.email}</td>
                       <td className="py-3 px-4 text-gray-800" dir="ltr">

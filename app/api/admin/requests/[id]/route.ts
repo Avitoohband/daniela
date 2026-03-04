@@ -22,6 +22,8 @@ export async function PATCH(
     const agreedPrice = typeof body.agreedPrice === "string" ? body.agreedPrice : undefined;
     const agreedTime = typeof body.agreedTime === "string" ? body.agreedTime : undefined;
     const notes = typeof body.notes === "string" ? body.notes : undefined;
+    const eventDate = typeof body.eventDate === "string" ? body.eventDate : undefined;
+    const eventType = body.eventType === "סדנה" || body.eventType === "הרצאה" ? body.eventType : undefined;
 
     const validStatuses: ServiceRequestStatus[] = ["pending", "addressed", "not_relevant"];
     const updateData: Parameters<typeof updateServiceRequest>[1] = {};
@@ -30,6 +32,8 @@ export async function PATCH(
     if (agreedPrice !== undefined) updateData.agreedPrice = agreedPrice;
     if (agreedTime !== undefined) updateData.agreedTime = agreedTime;
     if (notes !== undefined) updateData.notes = notes;
+    if (eventDate !== undefined) updateData.eventDate = eventDate;
+    if (eventType !== undefined) updateData.eventType = eventType;
 
     const updated = await updateServiceRequest(id, updateData);
     if (!updated) {
@@ -46,6 +50,8 @@ export async function PATCH(
       agreedPrice: updated.agreedPrice ?? "",
       agreedTime: updated.agreedTime ?? "",
       notes: updated.notes ?? "",
+      eventDate: updated.eventDate ?? "",
+      eventType: updated.eventType ?? "",
       createdAt: updated.createdAt.toISOString(),
       addressedAt: updated.addressedAt?.toISOString() ?? null,
     });

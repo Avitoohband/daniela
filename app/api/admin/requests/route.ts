@@ -19,6 +19,8 @@ export async function GET() {
       agreedPrice: r.agreedPrice ?? "",
       agreedTime: r.agreedTime ?? "",
       notes: r.notes ?? "",
+      eventDate: r.eventDate ?? "",
+      eventType: r.eventType ?? "",
       createdAt: r.createdAt.toISOString(),
       addressedAt: r.addressedAt?.toISOString() ?? null,
     }));
